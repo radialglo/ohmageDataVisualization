@@ -1,4 +1,4 @@
-ohmageDataVisualization
+ohmage Data Visualization
 =======================
 
-open source software engineering project for visualizing data on the ohmage platfrom 
+Open source software engineering project for visualizing data on the [ohmage](http://ohmage.org/) mobile to web platform 
