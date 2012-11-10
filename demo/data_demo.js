@@ -30,7 +30,7 @@ $(document).ready(function(){
                   
                 $.ohmg.getSurveyResponse(
                                           auth_token
-                                    , "urn:campaign:ca:ucla:Demo:Snack" //campaign_urn
+                                        , "urn:campaign:ca:ucla:Demo:Snack" //campaign_urn
                                         , undefined //client_type
                                         , "urn:ohmage:special:all" //column_list:
                                         , "json-rows" //output_format
