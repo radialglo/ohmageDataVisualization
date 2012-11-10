@@ -156,8 +156,8 @@ var  defaultSuccess = function(data) {
                 var data = generateParameters(
                                  {  auth_token:  auth_token
                                   , campaign_urn: campaign_urn
-                              , client: client_type
-                              , column_list: column_list
+                                  , client: client_type
+                                  , column_list: column_list
                                   , output_format: output_format
                                   , user_list:  user_list
                                  },optional);
@@ -178,8 +178,8 @@ function ajax(obj,ajaxOptions) {
 
         var defaultAjaxOptions = {
                 type: "POST"
-          , dataType: "json"
-      , headers:{ "Accept": "application/json"}
+              , dataType: "json"
+              , headers:{ "Accept": "application/json"}
         };
 
 
