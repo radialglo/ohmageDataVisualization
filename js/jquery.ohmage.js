@@ -3,8 +3,10 @@
  * $.ohmg is used to communicate with a Ohmage server, the server methods can
  * be called directly without creating an instance
  *
- *
- *
+ *  //See wiki for more documentation regarding Ohmage server APIs
+ *  https://github.com/cens/ohmageServer/wiki/
+ * (r) = required
+ * (o) = optional
  *
  */
 
@@ -12,39 +14,64 @@
 
 $.ohmg = $.ohmg || {};
 
+var  defaultSuccess = function(data) {
+
+	console.log(data);
+
+	if(data.result === "failure") {
+		throw("Error : " + data.errors[0]["text"]);
+	}
+ }
+ , defaultFail = function(data) {
+	console.log(data);
+	console.log(data.errors[0]["code"] + ":" + data.errors[0]["text"]);
+ };
+
+
  $.extend($.ohmg, {
   
     auth_token: undefined,
+    getToken: function() {
+    	return this.auth_token;
+    },
+
     client_type: "ohmage-js",
 
-	login: function(username,password,client_type){
+	login: function(username,password,client_type,onSuccess,onFail){
 
-		var $self = this;
+		var $self = this, 
+		setToken = function(data) {
+				//default handler for on Success
+				console.log(data);
+				$self.auth_token = data.token;
+				
+		};
 		
 		client_type = client_type || this.client_type;
 		
+		if(!isFunction(onSuccess)) {
+			onSuccess = setToken;
+		}
+		
+		if(!isFunction(onFail)) {
+			onFail = defaultFail;
+		}
 
 		ajax({
 		
-			url: this.url.root + "/" +   this.url.authentication,
+			url: this.url.root + "/" +   this.url.authentication
 	
-			data: { user : "cs130.07", password: "Clean.order31", client: client_type},
-			success: function(data) {
-
-				$self.auth_token = data.token;
-
-				console.log(typeof(data));
-				console.log(data);
-			},
-			error: function(data) {
-				console.log(typeof(data));
-				console.log(data);
-			}
+			, data: {   user : username
+				    , password: password
+				    , client: client_type
+				  }
+			, success: onSuccess
+			, error: onFail
 
 		});
 	},
 
-	getCampaigns: function(auth_token,client_type,output_format,optional){
+	getCampaigns: function(auth_token,client_type,output_format,optional,onSuccess,onFail){
 	/*
 		(r) auth_token = A valid authentication token. May also be set using the Set-Cookie header.
 		(r) client = A short description of the client making the request.
@@ -61,29 +88,31 @@ $.ohmg = $.ohmg || {};
 	*/
 		client_type = client_type || this.client_type;
 
+		if(!isFunction(onSuccess)) {
+			onSuccess = defaultSuccess;
+		}
+
+		if(!isFunction(onFail)) {
+			onFail = defaultFail;
+		}
+
+		var data = generateParameters(
+				   {   auth_token:  this.auth_token
+				    , client: client_type 
+				    , output_format: output_format
+				   },optional);
+
 		ajax({
 		
-			url: this.url.root + "/" + $.ohmg.url.campaign_read,
-		
-			data: { auth_token:  this.auth_token, client: client_type, output_format:"long"},
-			success: function(data) {
-
-				console.log(typeof(data));
-				console.log(data);
-
-				if(data.result === "failure") {
-					throw("Error : " + data.errors[0]["text"]);
-				}
-			},
-			error: function(data) {
-				console.log(typeof(data));
-				console.log(data.errors[0]["code"] + ":" + data.errors[0]["text"]);
-			}
+			url: this.url.root + "/" + $.ohmg.url.campaign_read
+			, data: data
+			, success: onSuccess
+			, error: onFail
 
 		});
 	},
 
-	getSurveyResponse: function(auth_token,campaign_urn,client,column_list,output_format,user_list,optional){
+	getSurveyResponse: function(auth_token,campaign_urn,client_type,column_list,output_format,user_list,optional,onSuccess,onFail){
 		/*
 		Supports Token-Based Authentication ...
 
@@ -95,7 +124,7 @@ $.ohmg = $.ohmg || {};
 		Additional Parameters
 
 		(r) campaign_urn = A valid campaign URN for the currently logged in user.
-		(r) client = The name of the software client accessing the API.
+		(r) client = The name of the software client accessing the API. //renamed as client_type for js function
 		(r) column_list = One or more of the URNs in the table belown in a comma-separated list or urn:ohmage:special:all.
 		(o) end_date = Must be present if start_date is present; allows querying against a date range
 		(r) output_format = One of json-rows, json-columns, or csv.
@@ -113,32 +142,31 @@ $.ohmg = $.ohmg || {};
 		(o) num_to_process = The number of survey responses to process after the skipping those to be skipped via 'num_survey_responses_to_skip'.
 		(o) survey_response_id_list = A comma-separated list of survey response IDs. The results will only be of survey responses whose ID is in this list.
 		*/
-		ajax({
-			url: this.url.root + "/" + $.ohmg.url.survey_read,
 		
-			data: { auth_token:  this.auth_token,
-					campaign_urn: "urn:campaign:ca:ucla:Demo:Snack",
-					client: this.client_type, 
-					column_list: "urn:ohmage:special:all",
-					output_format:"json-rows",
-					user_list:"urn:ohmage:special:all",
-					prompt_id_list: "urn:ohmage:special:all"
-				},
-			success: function(data) {
+		client_type = client_type || this.client_type;
 
-				console.log(typeof(data));
-				console.log(data);
+		if(!isFunction(onSuccess)) {
+			onSuccess = defaultSuccess;
+		}
 
-				if(data.result === "failure") {
-					throw("Error : " + data.errors[0]["text"]);
-				}
-			},
-			error: function(data) {
-				console.log(typeof(data));
-				console.log(data);
-				//console.log(data.errors[0]["code"] + ":" + data.errors[0]["text"]);
-			}
+		if(!isFunction(onFail)) {
+			onFail = defaultFail;
+		}
 
+		var data = generateParameters(
+				 {  auth_token:  auth_token
+				  , campaign_urn: campaign_urn
+			      , client: client_type
+			      , column_list: column_list
+				  , output_format: output_format
+				  , user_list:  user_list
+				 },optional);
+
+		ajax({
+			  url: this.url.root + "/" + $.ohmg.url.survey_read
+			, data: data
+			, success: onSuccess
+			, error: onFail
 		});
 	}
 
@@ -155,7 +183,7 @@ function ajax(obj,ajaxOptions) {
 	};
 
 
-	ajaxOptions = $.extend(defaultAjaxOptions,ajaxOptions);
+	ajaxOptions = $.extend(ajaxOptions,defaultAjaxOptions);
 
 
 	$.ajax($.extend($.extend({
@@ -165,12 +193,30 @@ function ajax(obj,ajaxOptions) {
 
 }
 
+
 $.ohmg.url = {
 	
       root: "https://test.ohmage.org"
 	, authentication: "app/user/auth_token"
 	, campaign_read: "app/campaign/read"
 	, survey_read: "app/survey_response/read"
+}
+
+function isFunction(func) {
+	return (func && typeof(func) === "function" ) ? true : false;
+}
+
+function generateParameters(required,optional) {
+
+	if(required && typeof(required) === "object" ) {
+
+		return $.extend(required,optional); //if optional is undefined this will just return required
+
+
+	} else {
+		throw("The 'required' parameter must be an object");
+	}
+
 }
 
 
