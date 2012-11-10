@@ -97,7 +97,7 @@ var  defaultSuccess = function(data) {
                 }
 
                 var data = generateParameters(
-                                   {   auth_token:  this.auth_token
+                                   {  auth_token:  auth_token
                                     , client: client_type 
                                     , output_format: output_format
                                    },optional);
@@ -196,7 +196,7 @@ function ajax(obj,ajaxOptions) {
 
 $.ohmg.url = {
         
-      root: "https://test.ohmage.org"
+          root: "https://test.ohmage.org"
         , authentication: "app/user/auth_token"
         , campaign_read: "app/campaign/read"
         , survey_read: "app/survey_response/read"
