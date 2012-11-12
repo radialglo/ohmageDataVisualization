@@ -31,6 +31,9 @@ var  defaultSuccess = function(data) {
  $.extend($.ohmg, {
   
     auth_token: undefined,
+    setToken: function(token) {
+        this.auth_token = token 
+    },
     getToken: function() {
         return this.auth_token;
     },
@@ -43,7 +46,7 @@ var  defaultSuccess = function(data) {
                 setToken = function(data) {
                                 //default handler for on Success
                                 console.log(data);
-                                $self.auth_token = data.token;
+                                $self.setToken(data.token);
                                 
                 };
                 
@@ -64,7 +67,7 @@ var  defaultSuccess = function(data) {
                         , data: {   user : username
                                     , password: password
                                     , client: client_type
-                                  }
+                                }
                         , success: onSuccess
                         , error: onFail
 
@@ -104,7 +107,7 @@ var  defaultSuccess = function(data) {
 
                 ajax({
                 
-                        url: this.url.root + "/" + $.ohmg.url.campaign_read
+                        url: this.url.root + "/" + this.url.campaign_read
                         , data: data
                         , success: onSuccess
                         , error: onFail
@@ -163,7 +166,7 @@ var  defaultSuccess = function(data) {
                                  },optional);
 
                 ajax({
-                          url: this.url.root + "/" + $.ohmg.url.survey_read
+                          url: this.url.root + "/" + this.url.survey_read
                         , data: data
                         , success: onSuccess
                         , error: onFail
