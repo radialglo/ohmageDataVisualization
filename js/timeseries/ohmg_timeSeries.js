@@ -45,6 +45,8 @@ var TimeSeries = {
         }
         processedTable[j] = TimeSeries.pairToRow(lastDate, dateCount);
         TimeSeries.drawChart(processedTable);
+        //TimeSeries.changeDate(surveyResponseTable[0].date,lastDate);
+        TimeSeries.changeDate(processedTable[0][0],processedTable[j][0]);
       },
 
       //given a dateString formatted "YYYY-MM-DD" (the format from the response)
@@ -54,6 +56,35 @@ var TimeSeries = {
       {
         var dates = dateString.split("-");
         return [new Date(dates[0], dates[1]-1, dates[2]), number];
+      },
+
+      changeDate: function (startDate, endDate)
+      {
+        $('#dp_start_div').DatePicker({
+          flat: true,
+          date: startDate,
+          current: startDate,
+          calendars: 1,
+          starts: 1,
+          onRender: function(date) {
+            return {
+              disabled: (date < startDate)
+            }
+          }
+        });
+        $('#dp_end_div').DatePicker({
+          flat: true,
+          date: endDate,
+          current: endDate,
+          calendars: 1,
+          starts: 1,
+          onRender: function(date) {
+            return {
+              disabled: (date > endDate)
+            }
+          }
+        });
+
       }
 
 }
