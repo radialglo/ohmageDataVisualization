@@ -17,7 +17,13 @@ var TimeSeries = {
                       if(!is_initial) 
                       {
                         var range = dygraph.xAxisRange();
-                        TimeSeries.changeDateRange(TimeSeries.roundToDay(new Date(range[0])),TimeSeries.roundToDay(new Date(range[1])));
+                        var rs = TimeSeries.roundToDay(new Date(range[0]));
+                        var re = TimeSeries.roundToDay(new Date(range[1]));
+                        if(range[0] < rs.valueOf() || range[1] < re.valueOf()){
+                          dygraph.updateOptions({ dateWindow: [rs.valueOf(), re.valueOf()] });
+                        }
+                        else
+                          TimeSeries.changeDateRange(rs,re);
                       }
                     }
 
