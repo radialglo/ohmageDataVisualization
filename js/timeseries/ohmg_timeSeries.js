@@ -1,19 +1,28 @@
 // JavaScript Document
-      google.load('visualization', '1', {'packages':['annotatedtimeline']});
-      
+var graph;
 var TimeSeries = {
 
       //Draws chart given a processed Table as parameter
       //Code is modified version from https://developers.google.com/chart/interactive/docs/gallery/annotatedtimeline
       initChart: function (my_table) 
       {
-        var data = new google.visualization.DataTable();
-        data.addColumn('date', 'Date');
-        data.addColumn('number', 'Responses');
-        data.addRows(my_table);
-        var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
-        chart.draw(data, {displayAnnotations: false});
-        //google.visualization.events.addListener(chart,'rangechange', function (start,end) {alert("hi"); TimeSeries.changeDateRange(start,end)});
+        graph = new Dygraph(document.getElementById("chart_div"),my_table,
+                  {
+                    labels: [ "Date", "Number of Submission"],
+                    showRangeSelector: true,
+                    /*zoomCallback : function(minDate, maxDate, yRange) {
+                      TimeSeries.changeDateRange(new Date(minDate),new Date(maxDate));
+                    },*/
+                    drawCallback : function(dygraph, is_initial) {
+                      if(!is_initial) 
+                      {
+                        var range = dygraph.xAxisRange();
+                        TimeSeries.changeDateRange(TimeSeries.roundToDay(new Date(range[0])),TimeSeries.roundToDay(new Date(range[1])));
+                      }
+                    }
+
+                  });
+
       },
 
       //Invoked outside of class with data being the response from the Ohmage Server
@@ -60,23 +69,34 @@ var TimeSeries = {
 
       initDatePickers: function (startDate, endDate)
       {
-        $( "#dp_start" ).datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ TimeSeries.changeDateRange(dateText,$("#dp_end").datepicker("getDate"));}});
-        $( "#dp_end" ).datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ TimeSeries.changeDateRange($("#dp_start").datepicker("getDate"), dateText);}});
+        $( "#dp_start" ).datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ TimeSeries.changeDateRange(new Date(dateText),$("#dp_end").datepicker("getDate"));}});
+        $( "#dp_end" ).datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ TimeSeries.changeDateRange($("#dp_start").datepicker("getDate"), new Date(dateText));}});
         $( "#dp_start" ).datepicker("setDate", startDate);
         $( "#dp_end" ).datepicker("setDate", endDate);
       },
 
       changeDateRange: function (startDate, endDate)
       {
-        alert("hello!");
+        if(startDate.valueOf() == $("#dp_start").datepicker("getDate").valueOf() &&
+           startDate.valueOf() == graph.xAxisRange()[0] && 
+           endDate.valueOf() == $("#dp_end").datepicker("getDate").valueOf() &&
+           endDate.valueOf() == graph.xAxisRange()[1]) return;
         $( "#dp_start" ).datepicker("setDate", startDate);
         $( "#dp_end" ).datepicker("setDate", endDate);
         $( "#dp_start" ).datepicker("option","maxDate", endDate);
         $( "#dp_end" ).datepicker("option", "minDate",startDate);
-        //var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
-        //chart.setVisibleChartRange(new Date(startDate), new Date(endDate));
+        graph.updateOptions({ dateWindow: [startDate.valueOf(), endDate.valueOf()] });
+
+      },
+
+      //used to do date comparisons by days not hours/min/sec/ms
+      roundToDay: function (date)
+      {
+        var d = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+        if(d > date)
+        {
+          return new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
+        }
+        return d;
       }
-
-
-
 }
