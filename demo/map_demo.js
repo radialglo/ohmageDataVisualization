@@ -20,7 +20,7 @@
                     , "json-rows" //output_format
                     , "urn:ohmage:special:all" //user_list
                     , optional
-            , getSurveyInfo
+                    , getSurveyInfo
         );
     }
 
