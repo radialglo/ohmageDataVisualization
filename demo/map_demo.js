@@ -180,6 +180,7 @@ ElementOverlay.prototype.onAdd = function() {
     $(this.div_).text("")
       .html(  "<ul>"
             + "<li><span>User:</span>" + this.response_.user + "</li>"
+            + "<li><span>Survey:</span>" + this.response_.survey_id + "</li>"
             + "<li><span>Date:</span>" + this.response_.timestamp.split(" ")[0] + "</li>"
             + "<li><span>Time:</span>" + this.response_.timestamp.split(" ")[1] + "</li>"
             + "<li><span>Privacy:</span>" + this.response_.privacy_state + "</li>"
