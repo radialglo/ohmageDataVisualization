@@ -24,7 +24,6 @@ var  defaultSuccess = function(data) {
  }
  , defaultFail = function(data) {
         console.log(data);
-        console.log(data.errors[0]["code"] + ":" + data.errors[0]["text"]);
  };
 
 
