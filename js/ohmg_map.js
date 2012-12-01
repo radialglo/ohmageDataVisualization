@@ -12,7 +12,7 @@
  function ohmgMap(mapID,obj) {
  //constructor for map
  
-	 var surveyResponses = obj.data //array containing all response data 
+     var surveyResponses = obj.data //array containing all response data 
        , response = undefined
 
        , mapBounds = this.getBounds(surveyResponses)
@@ -24,10 +24,10 @@
              'mapTypeId': google.maps.MapTypeId.ROADMAP
         }
 
-	   , map =  new google.maps.Map(document.getElementById(mapID), options)
-	   , $markerInfo = $('<div/>')
+       , map =  new google.maps.Map(document.getElementById(mapID), options)
+       , $markerInfo = $('<div/>')
 
-	   , markers = this.generateMarkers(surveyResponses)
+       , markers = this.generateMarkers(surveyResponses)
        , markerClusterer = new MarkerClusterer(map, markers);
 
 
@@ -36,17 +36,17 @@
      $markerInfo.attr("id","mapInfoBox");
 
   
-	 this.getMap = function() {
-	 	return map;
-	 }
+     this.getMap = function() {
+        return map;
+     }
  
 
      this.getMarkerInfo = function() {
-     	return $markerInfo;
+        return $markerInfo;
      }
 
      this.getMarkerClusterer = function() {
-     	return markerClusterer;
+        return markerClusterer;
      }
 
      map.fitBounds(mapBounds);
@@ -108,16 +108,16 @@
  }
 
  ohmgMap.prototype.clearMarkers = function() {
- 	
- 	this.getMarkerClusterer().clearMarkers()
+    
+    this.getMarkerClusterer().clearMarkers()
 
  }
 
  ohmgMap.prototype.displayPoint = function(marker,response) {
 
- 	this.getMarkerInfo().hide(); 
+    this.getMarkerInfo().hide(); 
 
- 	var  self = this;
+    var  self = this;
 
 
    var moveEnd = google.maps.event.addListener(this.getMap() , "idle" , function() {
@@ -139,7 +139,7 @@
 
  ohmgMap.prototype.getBounds = function(arr) {
 
- 	//@param arr - data array from JSON of getSurveyReponses
+    //@param arr - data array from JSON of getSurveyReponses
     // returns google.maps.LatLngBounds instance
 
     var latlngbounds = new google.maps.LatLngBounds();
@@ -158,7 +158,7 @@
 
  ohmgMap.prototype.centerMapandFitMarkers = function(latlngbounds) {
 
- 	this.setCenter(latlngbounds.getCenter());
+    this.setCenter(latlngbounds.getCenter());
     this.fitBounds(latlngbounds); 
  
  }
@@ -201,7 +201,7 @@ ElementOverlay.prototype.onAdd = function() {
 
     $(this.div_).text("")
       .html(  "<ul>"
-      	    + "<li><span>Survey:</span>" + this.response_.survey_id + "</li>"
+            + "<li><span>Survey:</span>" + this.response_.survey_id + "</li>"
             + "<li><span>User:</span>" + this.response_.user + "</li>"
             + "<li><span>Date:</span>" + this.response_.timestamp.split(" ")[0] + "</li>"
             + "<li><span>Time:</span>" + this.response_.timestamp.split(" ")[1] + "</li>"
