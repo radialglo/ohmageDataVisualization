@@ -1,8 +1,45 @@
 google.load('visualization', '1', {packages:['table']});
 
+var utable;
+var udata;
+var tarr;
+var tname;
+
+function uselectHandler() {
+    var selection = utable.getSelection();
+	var str = '';
+    for (var i = 0; i < selection.length; i++) {
+		var item = selection[i];
+		if (item.row != null && item.column != null) {
+			str = udata.getFormattedValue(item.row, item.column);
+		} else if (item.row != null) {
+			str = udata.getFormattedValue(item.row, 0);
+		} else if (item.column != null) {
+			str = udata.getFormattedValue(0, item.column);
+		}
+    }
+    if (str != '') {
+		for (var i = 0; i < tarr.length; i++){
+			if (tarr[i].user == tname && tarr[i].utc_timestamp == str){
+//				for(var j in tarr[i].responses){
+//					console.log(tarr[i].responses[j].prompt_text + ": " + tarr[i].responses[j].prompt_response);
+//				}
+				document.getElementById('res_div').style.display = 'block';
+				Response.drawTable(tarr[i].responses);
+			}
+		}
+//		toggle_visibility('user_div');
+//		toggle_visibility('table_div');
+    }
+}
+
+
 
 var User = {
 	drawTable: function (arr, name) {
+		tarr = arr;
+		tname = name;
+		
 		var hi = [];
 		var total = 0;
 		var res = [];
@@ -12,16 +49,18 @@ var User = {
 			res[i] ={"date": "none",
 				"survey": "no",
 				"loc": "no",
-				"client": "no"
+				"client": "no",
+				"privacy": "no"
 			};
 		} 
 
 		for(var i = 0; i < arr.length; i++){
 			if (arr[i].user == name){
-				res[total].date = arr[i].date
+				res[total].date = arr[i].utc_timestamp
 				res[total].survey = arr[i].survey_title
 				res[total].loc = arr[i].timezone
 				res[total].client = arr[i].client
+				res[total].privacy = arr[i].privacy_state
 				total++;
 			}
 		}
@@ -31,21 +70,24 @@ var User = {
 		udata.addColumn('string', 'Time');
 		udata.addColumn('string', 'Survey');
 		udata.addColumn('string', 'Timezone');		
-		udata.addColumn('string', 'Client');	
+		udata.addColumn('string', 'Client');
+		udata.addColumn('string', 'Privacy');		
 //adding data from res into datatable
 
 		for(var x = 0; x < total; x++){
 			udata.addRows([[
-				res[x].date, res[x].survey, res[x].loc, res[x].client
+				res[x].date, res[x].survey, res[x].loc, res[x].client, res[x].privacy
 			]]);
 		}
 		
-        utable = new google.visualization.Table(document.getElementById('leader_div'));
+        utable = new google.visualization.Table(document.getElementById('user_div'));
 		var options = {'showRowNumber': true};
 		options['page'] = 'enable';
 		options['pageSize'] = 10;
+		options['width'] = 500;
 		options['pagingButtonsConfiguration'] = 'auto';
 		utable.draw(udata, options);
+		google.visualization.events.addListener(utable, 'select', uselectHandler);
       }
 	  
 }

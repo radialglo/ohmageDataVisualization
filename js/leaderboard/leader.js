@@ -4,6 +4,17 @@ var table;
 var data;
 var arr;
 
+
+function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if(e.style.display == 'block')
+        e.style.display = 'none';
+    else
+        e.style.display = 'block';
+}
+
+
+
 function selectHandler() {
     var selection = table.getSelection();
 	var str = '';
@@ -19,7 +30,10 @@ function selectHandler() {
     }
     if (str != '') {
 		console.log(str);
+		document.getElementById('res_div').style.display = 'none';
 		User.drawTable(arr,str);
+		toggle_visibility('table_div');
+		toggle_visibility('user_vis');
     }
 }
 
@@ -56,12 +70,12 @@ var Leaderboard = {
 		}
 //run through arr one more time to fill in the privacy and the last update entries of res
 		for (var y = 0; y < total; y++){
-			var x = 0;
+			var x = arr.length-1;
 			while(res[y].name != arr[x].user){
-				x++;
+				x--;
 			}
 			res[y].privacy = arr[x].privacy_state;
-			res[y].last = arr[x].timestamp;
+			res[y].last = arr[x].utc_timestamp;
 		}
 	
 
@@ -83,6 +97,7 @@ var Leaderboard = {
 		var options = {'showRowNumber': true};
 		options['page'] = 'enable';
 		options['pageSize'] = 10;
+		options['width'] = 500;
 //		options['pagingSymbols'] = {prev: 'prev', next: 'next'};
 		options['pagingButtonsConfiguration'] = 'auto';
 		table.draw(data, options);

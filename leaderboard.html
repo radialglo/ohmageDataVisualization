@@ -7,10 +7,21 @@
 <script type="text/javascript" src="js/leaderboard/leader.js"></script>
 <script type="text/javascript" src="js/leaderboard/application_stub.js"></script>
 <script type="text/javascript" src="js/leaderboard/user.js"></script>
+<script type="text/javascript" src="js/leaderboard/response.js"></script>
 </head>
 <body>
-<div id='table_div' style='width: 400px; height: 500px;'></div>
-<div id='leader_div' style='width: 400px; height: 500px;'></div>
+
+<!--
+<div id='table_div'></div>
+<div id='leader_div'></div>
+-->
+<div id='table_div' style='display:block'></div>
+
+<div id='user_vis' style='display:none'> 
+<div id='user_div'> </div>
+<div id='res_div' style='display:none'> </div>
+<a href='#' onclick="toggle_visibility('table_div');toggle_visibility('user_vis')">Back</a>
+</div>
 
 </body>
 </html>
