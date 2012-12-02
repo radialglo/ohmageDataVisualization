@@ -22,8 +22,8 @@ var TimeSeries = {
                         if(range[0] < rs.valueOf() || range[1] < re.valueOf()){
                           dygraph.updateOptions({ dateWindow: [rs.valueOf(), re.valueOf()] });
                         }
-                        //else
-                          //TimeSeries.changeDateRange(rs,re);
+                        else
+                          TimeSeries.changeDateRange(rs,re);
                       }
                     }
 
@@ -102,7 +102,7 @@ var TimeSeries = {
       roundToDay: function (date)
       {
         var d = new Date(date.getFullYear(),date.getMonth(),date.getDate());
-        if(d > date)
+        if(d < date)
         {
           return new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
         }
