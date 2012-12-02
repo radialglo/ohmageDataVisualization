@@ -73,6 +73,7 @@ var TimeSeries = {
         return [new Date(dates[0], dates[1]-1, dates[2]), number];
       },
 
+      //Initialize/Re-initialize datePickers
       initDatePickers: function (startDate, endDate)
       {
         var self = this;
@@ -82,6 +83,7 @@ var TimeSeries = {
         this.getEndPicker().datepicker("setDate", endDate);
       },
 
+      //Modifiable date range kept by chart and datePicker
       changeDateRange: function (startDate, endDate)
       {
         if(startDate.valueOf() == this.getStartPicker().datepicker("getDate").valueOf() &&
@@ -106,7 +108,8 @@ var TimeSeries = {
         }
         return d;
       },
-                 
+      
+      //Function calls to datePicker to make them more readable           
       getStartPicker: function()
       {
         return $( "#dp_start" );
@@ -117,12 +120,11 @@ var TimeSeries = {
         return $( "#dp_end" );
       },
       
+      //Method to return start and end dates in ISO format
       getStart: function ()
       {
         return this.getStartPicker().datepicker("getDate").toISOString();  
-      },
-      
-      
+      },            
       
       getEnd: function()
       {
