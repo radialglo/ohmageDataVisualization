@@ -1,8 +1,31 @@
 google.load('visualization', '1', {packages:['table']});
-var Leaderboard = {
 
+var table;
+var data;
+var arr;
+
+function selectHandler() {
+    var selection = table.getSelection();
+	var str = '';
+    for (var i = 0; i < selection.length; i++) {
+		var item = selection[i];
+		if (item.row != null && item.column != null) {
+			str = data.getFormattedValue(item.row, item.column);
+		} else if (item.row != null) {
+			str = data.getFormattedValue(item.row, 0);
+		} else if (item.column != null) {
+			str = data.getFormattedValue(0, item.column);
+		}
+    }
+    if (str != '') {
+		console.log(str);
+		User.drawTable(arr,str);
+    }
+}
+
+var Leaderboard = {
 	drawTable: function (surv) {
-		var arr = surv.data;
+		arr = surv.data;
 		var hi = [];
 		var total = 0;
 		var res = [];
@@ -43,7 +66,7 @@ var Leaderboard = {
 	
 
 //setting up datatable
-		var data = new google.visualization.DataTable();
+		data = new google.visualization.DataTable();
 		data.addColumn('string', 'ID');
 		data.addColumn('number', 'Responses');
 		data.addColumn('string', 'Last Response');		
@@ -56,10 +79,14 @@ var Leaderboard = {
 			]]);
 		}
 		
-		
-        var table = new google.visualization.Table(document.getElementById('table_div'));
-		table.draw(data, {showRowNumber: true});
+        table = new google.visualization.Table(document.getElementById('table_div'));
+		var options = {'showRowNumber': true};
+		options['page'] = 'enable';
+		options['pageSize'] = 10;
+//		options['pagingSymbols'] = {prev: 'prev', next: 'next'};
+		options['pagingButtonsConfiguration'] = 'auto';
+		table.draw(data, options);
+		google.visualization.events.addListener(table, 'select', selectHandler);
       }
-
-
+	  
 }
