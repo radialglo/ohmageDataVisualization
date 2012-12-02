@@ -10,9 +10,9 @@ var TimeSeries = {
                   {
                     labels: [ "Date", "Number of Submission"],
                     showRangeSelector: true,
-                    /*zoomCallback : function(minDate, maxDate, yRange) {
+                    zoomCallback : function(minDate, maxDate, yRange) {
                       TimeSeries.changeDateRange(new Date(minDate),new Date(maxDate));
-                    },*/
+                    },
                     drawCallback : function(dygraph, is_initial) {
                       if(!is_initial) 
                       {
@@ -22,8 +22,8 @@ var TimeSeries = {
                         if(range[0] < rs.valueOf() || range[1] < re.valueOf()){
                           dygraph.updateOptions({ dateWindow: [rs.valueOf(), re.valueOf()] });
                         }
-                        else
-                          TimeSeries.changeDateRange(rs,re);
+                        //else
+                          //TimeSeries.changeDateRange(rs,re);
                       }
                     }
 
@@ -72,13 +72,13 @@ var TimeSeries = {
         var dates = dateString.split("-");
         return [new Date(dates[0], dates[1]-1, dates[2]), number];
       },
-
+      
       //Initialize/Re-initialize datePickers
       initDatePickers: function (startDate, endDate)
       {
         var self = this;
-        this.getStartPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ TimeSeries.changeDateRange(new Date(dateText),self.getEndPicker().datepicker("getDate"));}});
-        this.getEndPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ TimeSeries.changeDateRange(self.getStartPicker().datepicker("getDate"), new Date(dateText));}});
+        this.getStartPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ self.changeDateRange(new Date(dateText),self.getEndPicker().datepicker("getDate"));}});
+        this.getEndPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ self.changeDateRange(self.getStartPicker().datepicker("getDate"), new Date(dateText));}});
         this.getStartPicker().datepicker("setDate", startDate);
         this.getEndPicker().datepicker("setDate", endDate);
       },
@@ -93,7 +93,7 @@ var TimeSeries = {
         this.getStartPicker().datepicker("setDate", startDate);
         this.getEndPicker().datepicker("setDate", endDate);
         this.getStartPicker().datepicker("option","maxDate", endDate);
-        this.getEndPicker().datepicker("option", "minDate",startDate);
+        this.getEndPicker().datepicker("option", "minDate", startDate);
         graph.updateOptions({ dateWindow: [startDate.valueOf(), endDate.valueOf()] });
 
       },
