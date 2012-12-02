@@ -75,22 +75,22 @@ var TimeSeries = {
 
       initDatePickers: function (startDate, endDate)
       {
-        $( "#dp_start" ).datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ TimeSeries.changeDateRange(new Date(dateText),$("#dp_end").datepicker("getDate"));}});
-        $( "#dp_end" ).datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ TimeSeries.changeDateRange($("#dp_start").datepicker("getDate"), new Date(dateText));}});
-        $( "#dp_start" ).datepicker("setDate", startDate);
-        $( "#dp_end" ).datepicker("setDate", endDate);
+        this.getStartPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ TimeSeries.changeDateRange(new Date(dateText),this.getEndPicker().datepicker("getDate"));}});
+        this.getEndPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ TimeSeries.changeDateRange(this.getStartPicker().datepicker("getDate"), new Date(dateText));}});
+        this.getStartPicker().datepicker("setDate", startDate);
+        this.getEndPicker().datepicker("setDate", endDate);
       },
 
       changeDateRange: function (startDate, endDate)
       {
-        if(startDate.valueOf() == $("#dp_start").datepicker("getDate").valueOf() &&
+        if(startDate.valueOf() == this.getStartPicker().datepicker("getDate").valueOf() &&
            startDate.valueOf() == graph.xAxisRange()[0] && 
-           endDate.valueOf() == $("#dp_end").datepicker("getDate").valueOf() &&
+           endDate.valueOf() == getEndPicker().datepicker("getDate").valueOf() &&
            endDate.valueOf() == graph.xAxisRange()[1]) return;
-        $( "#dp_start" ).datepicker("setDate", startDate);
-        $( "#dp_end" ).datepicker("setDate", endDate);
-        $( "#dp_start" ).datepicker("option","maxDate", endDate);
-        $( "#dp_end" ).datepicker("option", "minDate",startDate);
+        this.getStartPicker().datepicker("setDate", startDate);
+        this.getEndPicker().datepicker("setDate", endDate);
+        this.getStartPicker().datepicker("option","maxDate", endDate);
+        this.getEndPicker().datepicker("option", "minDate",startDate);
         graph.updateOptions({ dateWindow: [startDate.valueOf(), endDate.valueOf()] });
 
       },
@@ -104,5 +104,27 @@ var TimeSeries = {
           return new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
         }
         return d;
+      }
+                 
+      getStartPicker: function()
+      {
+        return $( "#dp_start" );
+      }
+      
+      getEndPicker: function()
+      {
+        return $( "#dp_end" );
+      }
+      
+      getStart: function ()
+      {
+        return this.getStartPicker().datepicker("getDate").toISOString();  
+      }
+      
+      
+      
+      getEnd: function()
+      {
+        this.getEndPicker().datepicker("getDate").toISOString();
       }
 }
