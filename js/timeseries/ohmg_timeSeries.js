@@ -104,22 +104,22 @@ var TimeSeries = {
           return new Date(date.getFullYear(),date.getMonth(),date.getDate()+1);
         }
         return d;
-      }
+      },
                  
       getStartPicker: function()
       {
         return $( "#dp_start" );
-      }
+      },
       
       getEndPicker: function()
       {
         return $( "#dp_end" );
-      }
+      },
       
       getStart: function ()
       {
         return this.getStartPicker().datepicker("getDate").toISOString();  
-      }
+      },
       
       
       
