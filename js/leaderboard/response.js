@@ -21,10 +21,10 @@ var Response = {
 		
         var rtable = new google.visualization.Table(document.getElementById('res_div'));
 		var options = {'showRowNumber': true};
-		options['page'] = 'enable';
-		options['pageSize'] = 10;
+//		options['page'] = 'enable';
+//		options['pageSize'] = 10;
 		options['width'] = 500;
-		options['pagingButtonsConfiguration'] = 'auto';
+//		options['pagingButtonsConfiguration'] = 'auto';
 		rtable.draw(rdata, options);
       }
 	  

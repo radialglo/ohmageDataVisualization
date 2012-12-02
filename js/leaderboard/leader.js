@@ -95,11 +95,10 @@ var Leaderboard = {
 		
         table = new google.visualization.Table(document.getElementById('table_div'));
 		var options = {'showRowNumber': true};
-		options['page'] = 'enable';
-		options['pageSize'] = 10;
+//		options['page'] = 'enable';
+//		options['pageSize'] = 10;
 		options['width'] = 500;
-//		options['pagingSymbols'] = {prev: 'prev', next: 'next'};
-		options['pagingButtonsConfiguration'] = 'auto';
+//		options['pagingButtonsConfiguration'] = 'auto';
 		table.draw(data, options);
 		google.visualization.events.addListener(table, 'select', selectHandler);
       }
