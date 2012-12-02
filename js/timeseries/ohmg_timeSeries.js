@@ -75,8 +75,9 @@ var TimeSeries = {
 
       initDatePickers: function (startDate, endDate)
       {
-        this.getStartPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ TimeSeries.changeDateRange(new Date(dateText),this.getEndPicker().datepicker("getDate"));}});
-        this.getEndPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ TimeSeries.changeDateRange(this.getStartPicker().datepicker("getDate"), new Date(dateText));}});
+        var self = this;
+        this.getStartPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ TimeSeries.changeDateRange(new Date(dateText),self.getEndPicker().datepicker("getDate"));}});
+        this.getEndPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ TimeSeries.changeDateRange(self.getStartPicker().datepicker("getDate"), new Date(dateText));}});
         this.getStartPicker().datepicker("setDate", startDate);
         this.getEndPicker().datepicker("setDate", endDate);
       },
@@ -85,7 +86,7 @@ var TimeSeries = {
       {
         if(startDate.valueOf() == this.getStartPicker().datepicker("getDate").valueOf() &&
            startDate.valueOf() == graph.xAxisRange()[0] && 
-           endDate.valueOf() == getEndPicker().datepicker("getDate").valueOf() &&
+           endDate.valueOf() == this.getEndPicker().datepicker("getDate").valueOf() &&
            endDate.valueOf() == graph.xAxisRange()[1]) return;
         this.getStartPicker().datepicker("setDate", startDate);
         this.getEndPicker().datepicker("setDate", endDate);
