@@ -22,7 +22,7 @@ $(document).ready(function(){
                            , "urn:ohmage:special:all" //user_list
                            , optional
                            , function(surveyResponseTable){
-                               TimeSeries.initSurveyResponse(surveyResponseTable);
+                               TimeSeries.initSurveyResponse(surveyResponseTable, function(){});
                              });
     
   }, defaultTimeout);

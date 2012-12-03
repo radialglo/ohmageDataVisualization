@@ -35,8 +35,10 @@ var TimeSeries = {
       //the data will be exactly what the Ohmage Server returned.
       //we go through the data.data (the array that contains the responses, sorted in date order)
       // counting the number of times a response occured per day.
-      initSurveyResponse: function (data)
+      initSurveyResponse: function (data, onChangeHandler)
       {
+        this.onChangeHandler = onChangeHandler;
+        
         var surveyResponseTable = data.data;
         var processedTable= [];
         if(surveyResponseTable.length == 0) return this.rawChart(processedTable);
@@ -95,7 +97,7 @@ var TimeSeries = {
         this.getStartPicker().datepicker("option","maxDate", endDate);
         this.getEndPicker().datepicker("option", "minDate", startDate);
         graph.updateOptions({ dateWindow: [startDate.valueOf(), endDate.valueOf()] });
-
+        this.onChangeHandler();
       },
 
       //used to do date comparisons by days not hours/min/sec/ms
@@ -121,12 +123,12 @@ var TimeSeries = {
       },
       
       //Method to return start and end dates in ISO format
-      getStart: function ()
+      getStartDate: function ()
       {
         return this.getStartPicker().datepicker("getDate").toISOString();  
       },            
       
-      getEnd: function()
+      getEndDate: function()
       {
         this.getEndPicker().datepicker("getDate").toISOString();
       }
