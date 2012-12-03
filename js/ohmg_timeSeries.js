@@ -8,7 +8,7 @@ var TimeSeries = {
       {
         graph = new Dygraph(document.getElementById("chart_div"),my_table,
                   {
-                    labels: [ "Date", "Number of Submission"],
+                    labels: [ "Date", "Number of Submissions"],
                     showRangeSelector: true,
                     zoomCallback : function(minDate, maxDate, yRange) {
                       TimeSeries.changeDateRange(new Date(minDate),new Date(maxDate));
@@ -126,13 +126,13 @@ var TimeSeries = {
       getStartDate: function ()
       {
         var date = this.getStartPicker().datepicker("getDate");
-        return [date.getFullYear(),date.getMonth(),date.getDate()].join("-");
+        return [date.getFullYear(),date.getMonth()+1,date.getDate()].join("-");
       },
       
       getEndDate: function()
       {
         var date = this.getEndPicker().datepicker("getDate");
-        return [date.getFullYear(),date.getMonth(),date.getDate()].join("-");
+        return [date.getFullYear(),date.getMonth()+1,date.getDate()].join("-");
 
       }
 }
