@@ -125,11 +125,14 @@ var TimeSeries = {
       //Method to return start and end dates in ISO format
       getStartDate: function ()
       {
-        return this.getStartPicker().datepicker("getDate").toISOString();  
-      },            
+        var date = this.getStartPicker().datepicker("getDate");
+        return [date.getFullYear(),date.getMonth(),date.getDate()].join("-");
+      },
       
       getEndDate: function()
       {
-        this.getEndPicker().datepicker("getDate").toISOString();
+        var date = this.getEndPicker().datepicker("getDate");
+        return [date.getFullYear(),date.getMonth(),date.getDate()].join("-");
+
       }
 }

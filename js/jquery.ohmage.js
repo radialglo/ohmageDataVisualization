@@ -202,6 +202,7 @@ $.ohmg.url = {
         , authentication: "app/user/auth_token"
         , campaign_read: "app/campaign/read"
         , survey_read: "app/survey_response/read"
+        , image_read: "app/image/read"
 }
 
 function isFunction(func) {

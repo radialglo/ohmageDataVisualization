@@ -1,3 +1,11 @@
+html {
+    min-height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
 /*
 switch cursor to pointer on the leaderboard/userpages
 */
@@ -6,3 +14,43 @@ switch cursor to pointer on the leaderboard/userpages
 #user_div .google-visualization-table-table {
    cursor: pointer;
 }
+
+/*==== Ohmg_map ====*/
+#ohmg_map {
+    height: 600px;
+    width: 1000px;
+    margin: 100px auto;
+    border: 10px solid #EEE;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+   position: relative;
+}
+
+#mapInfoBox {
+    display: none;
+    position: absolute;
+    padding: 1em;
+    background: rgba(0,0,0,0.7);
+    color: #FFF;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    border-radius:4px;
+    cursor: pointer;
+}
+
+#mapInfoBox li {
+    list-style: none;
+}
+
+#mapInfoBox span {
+    color: #FC3;
+    text-shadow: 0 0 1px white;
+    margin-right: 5px;
+}
+
+/*==== end Ohmg_map ====*/

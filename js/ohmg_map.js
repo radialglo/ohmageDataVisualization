@@ -158,8 +158,8 @@
 
  ohmgMap.prototype.centerMapandFitMarkers = function(latlngbounds) {
 
-    this.setCenter(latlngbounds.getCenter());
-    this.fitBounds(latlngbounds); 
+    this.getMap().setCenter(latlngbounds.getCenter());
+    this.getMap().fitBounds(latlngbounds); 
  
  }
 
