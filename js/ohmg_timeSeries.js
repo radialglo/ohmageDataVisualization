@@ -41,7 +41,7 @@ var TimeSeries = {
         
         var surveyResponseTable = data.data;
         var processedTable= [];
-        if(surveyResponseTable.length == 0) return this.rawChart(processedTable);
+        if(surveyResponseTable.length == 0) return;// this.rawChart(processedTable);
         var lastDate = surveyResponseTable[0].date;
         var dateCount = 0;
         var currentDate;

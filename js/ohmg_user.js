@@ -33,7 +33,26 @@ function uselectHandler() {
 
 
 var User = {
+	user_name : "urn:ohmage:special:all",
+
+	setNameAll: function() {
+		this.user_name =  this.allString();
+	},
+	allString: function() {
+		return "urn:ohmage:special:all";
+	},
+
+	setName : function(user_name) {
+	   this.user_name = user_name;
+	},
+	getName : function() {
+	  return this.user_name;
+	},
 	drawTable: function (arr, name) {
+
+		//set name to all so Campaign Manager Can go back
+
+
 		tarr = arr;
 		tname = name;
 		
@@ -74,7 +93,7 @@ var User = {
 
 		for(var x = 0; x < total; x++){
 			udata.addRows([[
-				res[x].date, res[x].survey, res[x].loc, res[x].client, res[x].privacy, '<a href="#" >Click</a>'
+				res[x].date, res[x].survey, res[x].loc, res[x].client, res[x].privacy, '<span>Insert Search Icon</span>'
 			]]);
 		}
 		

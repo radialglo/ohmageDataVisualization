@@ -20,7 +20,9 @@ var campaign_urn = "urn:campaign:ca:ucla:Demo:Snack" //campaign_urn
 var prompt_id_list = "urn:ohmage:special:all" 
   , sort_order = "timestamp,user,survey";
 
- var map = undefined; 
+var map = undefined; 
+
+var recalculateTimeSeries = true;
 
 $(document).ready(function(){
 
@@ -48,20 +50,52 @@ $('body').append(
 
 	+ '<div id="user_vis" style="display:none">' 
 
-	+   '<h2 id="user_name"></h2>',
+	/*+   '<h2 id="user_name"></h2>'/*,
 	$('<a/>').click(function(){
-		toggle_visibility("table_div");
-		toggle_visibility("user_vis");
+
+		alert("Hello");
+
+		//toggle_visibility("table_div");
+		//toggle_visibility("user_vis");
+
+		$("#table_div").toggle();
+		$("#user_vis").toggle();
+
+		//$('#user_vis').hide();
 	})
 	.text("View Leaderboard")
-	.attr("href","#"),
+	.attr("href","#"),*/
 
 		//'<a href="#" onclick="toggle_visibility("table_div");toggle_visibility("user_vis")">Back</a>'
 
-		'<div id="user_div" style="width: 500px; height: 200px;""> </div>'
+	+	'<div id="user_div" style="width: 500px; height: 200px;""> </div>'
 	+	'<div id="res_div" style="display:none; width: 500px; height: 200px;"> </div>'
 	+ '</div>' 
 );
+
+    $("#user_vis").prepend(
+		$('<a/>').click(function(e){
+
+			//alert("Hello");
+
+			//toggle_visibility("table_div");
+			//toggle_visibility("user_vis");
+
+			$("#table_div").toggle();
+			$("#user_vis").toggle();
+
+			User.setNameAll();
+			recalculateTimeSeries = true;
+			queryByDate();
+
+
+			return false;
+
+		})
+		.text("View Leaderboard")
+		.attr("href","#"),
+		'<h2 id="user_name"></h2>'
+    );
 
 
 
@@ -69,16 +103,34 @@ $('body').append(
 $.ohmg.login(user,password, client_type,
  function(data) {
 
- var optional = {
-	              prompt_id_list : prompt_id_list ////prompt_id_list 
-                , sort_order : sort_order
-               }; 
+		var optional = {
+			              prompt_id_list : prompt_id_list ////prompt_id_list 
+		                , sort_order : sort_order
+		               }; 
 
 
         auth_token = data.token;
-       
-          
-        $.ohmg.getSurveyResponse(
+        $.ohmg.setToken(auth_token);
+
+        $.ohmg.getCampaigns(auth_token,client_type,"long",undefined,function(obj){
+
+        	var campaigns = obj.metadata.items, 
+        	    $select  = $('<select/>');
+
+        	for(var i = 0; i < campaigns.length ; i++) {
+        		$select.append($('<option/>').val(campaigns[i]).text(campaigns[i]));
+        	}
+
+        	$select.val(campaigns[0]).prependTo('body');
+
+        	$select.change(function(){
+
+        		campaign_urn =  $(this).find(":selected").val();
+        		queryByDate();
+
+        	})
+
+        	$.ohmg.getSurveyResponse(
                     data.token
                     , campaign_urn //campaign_urn
                     , client_type //client_type
@@ -90,11 +142,15 @@ $.ohmg.login(user,password, client_type,
 
                     	map = new ohmgMap ("ohmg_map",data);
                     	Leaderboard.drawTable(data);
+                    	Leaderboard.setSelectHandler(queryByDate);
                     	TimeSeries.initSurveyResponse(data,queryByDate);
 
                     	
                     }
-        );
+          );
+
+
+        })
 
        
     }
@@ -110,57 +166,28 @@ $.ohmg.login(user,password, client_type,
 });//end document.ready
 
 
-
-
-
-
-function queryByUser(){
-
-		 var optional = {
-	              prompt_id_list : prompt_id_list ////prompt_id_list 
-                , sort_order : sort_order
-               };
-
-          //TODO: add LeaderBoard.getUser
-         var OneUser = "ohmage.landa";
-
-		$.ohmg.getSurveyResponse(
-                      auth_token
-                    , campaign_urn //campaign_urn
-                    , client_type //client_type
-                    , column_list //column_list:
-                    , output_format //output_format
-                    , OneUser //user_list
-                    , optional
-                    , function(obj) {
-
-                    	console.log(obj);
-                    	
-                    	map.clearMarkers();
-                    	map.addMarkers( map.generateMarkers(obj.data) );
-                    	map.centerMapandFitMarkers(map.getBounds(obj.data) );
-
-                    	TimeSeries.initSurveyResponse(obj,queryByDate);
-
-                    	User.drawTable(obj,OneUser);
-                    	
-                    }
-      );
-
-
-}
-
 function queryByDate (){
+
+	 user_list = User.getName();
 
 	var start_date = TimeSeries.getStartDate()
 	  , end_date = TimeSeries.getEndDate();
 
+
+
 	 var optional = {
 	              prompt_id_list : prompt_id_list ////prompt_id_list 
                 , sort_order : sort_order
-                , start_date : start_date
-                , end_date : end_date
+               
                }; 
+
+     if(!recalculateTimeSeries){//user_list !== User.allString() ) {
+     	 optional.start_date = start_date;
+         optional.end_date = end_date;
+     }
+     
+
+   
 
 
 	$.ohmg.getSurveyResponse(
@@ -173,14 +200,36 @@ function queryByDate (){
                     , optional
                     , function(obj) {
 
-                    	console.log(obj);
-                    	
+                    	//console.log(obj);
+                    	//console.log(user_list);
+
+                        var markers =  map.generateMarkers(obj.data) ;
+
                     	map.clearMarkers();
-                    	map.addMarkers( map.generateMarkers(obj.data) );
-                    	map.centerMapandFitMarkers(map.getBounds(obj.data) );
+                    	map.addMarkers( markers );
+
+
+                    	if(markers.length > 0 ) {
+                    		map.centerMapandFitMarkers(map.getBounds(obj.data) );
+                    	}
+
                     	
-                    	Leaderboard.drawTable(obj);
-                    	
+
+                    	if(user_list === User.allString()) {
+
+
+                    		Leaderboard.drawTable(obj);
+
+                    	} else {
+
+                    		User.drawTable(obj.data,user_list);
+                    	}
+
+                    	if(recalculateTimeSeries) {
+
+                    		TimeSeries.initSurveyResponse(obj,queryByDate);
+                        }
+                    	recalculateTimeSeries = false;
                     }
       );
 

@@ -30,31 +30,28 @@ function selectHandler() {
     }
     if (name != '') {
 	    $('#user_name').text(name);
-		Leaderboard.setName(name);
+		User.setName(name);
 		
 		console.log(name);
 		document.getElementById('res_div').style.display = 'none';
 		
-		User.drawTable(arr,name);
+		//User.drawTable(arr,name);
+		recalculateTimeSeries = true;
 		Leaderboard.getSelectHandler()();
 		
-		toggle_visibility('table_div');
-		toggle_visibility('user_vis');
+		/*toggle_visibility('table_div');
+		toggle_visibility('user_vis');*/
+		$("#table_div").toggle();
+		$("#user_vis").toggle();
     }
 }
 
 var Leaderboard = {
     setSelectHandler: function(selectHandler) {
-	   this.selectHandler = Handler;
+	   this.selectHandler = selectHandler;
 	},
 	getSelectHandler : function() {
 	   return this.selectHandler;
-	},
-	setName : function(user_name) {
-	   this.user_name = user_name
-	},
-	getName : function() {
-	  return this.user_name;
 	},
 	drawTable: function (surv) {
 		arr = surv.data;
