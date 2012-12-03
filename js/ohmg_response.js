@@ -1,5 +1,7 @@
 google.load('visualization', '1', {packages:['table']});
 
+var camp = 'urn:campaign:ca:ucla:Demo:Snack';
+
 var Response = {
 	drawTable: function (survey) {
 
@@ -20,7 +22,7 @@ var Response = {
 				
 				image_link+= '?id=' + survey[i].prompt_response
 				image_link+= '&amp;camaign_urn=';
-				image_link+= 'urn:campaign:ca:ucla:Demo:Snack';
+				image_link+= camp;
 				image_link+= '&amp;auth_token=' + $.ohmg.getToken()
 				image_link+= '&amp;owner=' + tname + '&amp;client=android&amp;size=small';
 
