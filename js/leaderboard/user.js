@@ -7,23 +7,20 @@ var tname;
 
 function uselectHandler() {
     var selection = utable.getSelection();
-	var str = '';
+	var time_stamp = '';
     for (var i = 0; i < selection.length; i++) {
 		var item = selection[i];
 		if (item.row != null && item.column != null) {
-			str = udata.getFormattedValue(item.row, item.column);
+			time_stamp = udata.getFormattedValue(item.row, item.column);
 		} else if (item.row != null) {
-			str = udata.getFormattedValue(item.row, 0);
+			time_stamp = udata.getFormattedValue(item.row, 0);
 		} else if (item.column != null) {
-			str = udata.getFormattedValue(0, item.column);
+			time_stamp = udata.getFormattedValue(0, item.column);
 		}
     }
-    if (str != '') {
+    if (time_stamp != '') {
 		for (var i = 0; i < tarr.length; i++){
-			if (tarr[i].user == tname && tarr[i].utc_timestamp == str){
-//				for(var j in tarr[i].responses){
-//					console.log(tarr[i].responses[j].prompt_text + ": " + tarr[i].responses[j].prompt_response);
-//				}
+			if (tarr[i].user == tname && tarr[i].utc_timestamp == time_stamp){
 				document.getElementById('res_div').style.display = 'block';
 				Response.drawTable(tarr[i].responses);
 			}
@@ -71,12 +68,13 @@ var User = {
 		udata.addColumn('string', 'Survey');
 		udata.addColumn('string', 'Timezone');		
 		udata.addColumn('string', 'Client');
-		udata.addColumn('string', 'Privacy');		
+		udata.addColumn('string', 'Privacy');
+		udata.addColumn('string', '');		
 //adding data from res into datatable
 
 		for(var x = 0; x < total; x++){
 			udata.addRows([[
-				res[x].date, res[x].survey, res[x].loc, res[x].client, res[x].privacy
+				res[x].date, res[x].survey, res[x].loc, res[x].client, res[x].privacy, '<a href="#" >Click</a>'
 			]]);
 		}
 		
@@ -85,6 +83,7 @@ var User = {
 //		options['page'] = 'enable';
 //		options['pageSize'] = 10;
 		options['width'] = 500;
+		options['allowHtml'] = true;
 //		options['pagingButtonsConfiguration'] = 'auto';
 		utable.draw(udata, options);
 		google.visualization.events.addListener(utable, 'select', uselectHandler);

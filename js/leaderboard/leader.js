@@ -17,21 +17,22 @@ function toggle_visibility(id) {
 
 function selectHandler() {
     var selection = table.getSelection();
-	var str = '';
+	var name = '';
     for (var i = 0; i < selection.length; i++) {
 		var item = selection[i];
 		if (item.row != null && item.column != null) {
-			str = data.getFormattedValue(item.row, item.column);
+			name = data.getFormattedValue(item.row, item.column);
 		} else if (item.row != null) {
-			str = data.getFormattedValue(item.row, 0);
+			name = data.getFormattedValue(item.row, 0);
 		} else if (item.column != null) {
-			str = data.getFormattedValue(0, item.column);
+			name = data.getFormattedValue(0, item.column);
 		}
     }
-    if (str != '') {
-		console.log(str);
+    if (name != '') {
+	    $('#user_name').text(name);
+		console.log(name);
 		document.getElementById('res_div').style.display = 'none';
-		User.drawTable(arr,str);
+		User.drawTable(arr,name);
 		toggle_visibility('table_div');
 		toggle_visibility('user_vis');
     }

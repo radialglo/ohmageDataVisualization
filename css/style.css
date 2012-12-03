@@ -1,0 +1,8 @@
+/*
+switch cursor to pointer on the leaderboard/userpages
+*/
+
+#table_div .google-visualization-table-table,
+#user_div .google-visualization-table-table {
+   cursor: pointer;
+}
