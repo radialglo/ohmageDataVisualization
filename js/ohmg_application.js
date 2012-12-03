@@ -126,6 +126,13 @@ $.ohmg.login(user,password, client_type,
         	$select.change(function(){
 
         		campaign_urn =  $(this).find(":selected").val();
+
+            $("#table_div").css({"display":"block"});
+            $("#user_vis").css({"display":"none"});
+
+
+            User.setNameAll();
+            recalculateTimeSeries = true;
         		queryByDate();
 
         	})
@@ -182,8 +189,8 @@ function queryByDate (){
                }; 
 
      if(!recalculateTimeSeries){//user_list !== User.allString() ) {
-     	 optional.start_date = start_date;
-         optional.end_date = end_date;
+     	  optional.start_date = start_date;
+        optional.end_date = end_date;
      }
      
 
