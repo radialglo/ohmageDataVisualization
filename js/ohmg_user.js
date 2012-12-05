@@ -25,8 +25,7 @@ function uselectHandler() {
 				Response.drawTable(tarr[i].responses);
 			}
 		}
-//		toggle_visibility('user_div');
-//		toggle_visibility('table_div');
+
     }
 }
 
@@ -93,7 +92,7 @@ var User = {
 
 		for(var x = 0; x < total; x++){
 			udata.addRows([[
-				res[x].date, res[x].survey, res[x].loc, res[x].client, res[x].privacy, '<span>Insert Search Icon</span>'
+				res[x].date, res[x].survey, res[x].loc, res[x].client, res[x].privacy, '<span><i class="icon-search"></i></span>'
 			]]);
 		}
 		
@@ -101,7 +100,7 @@ var User = {
 		var options = {'showRowNumber': true};
 //		options['page'] = 'enable';
 //		options['pageSize'] = 10;
-		options['width'] = 500;
+		options['width'] = 400;
 		options['allowHtml'] = true;
 //		options['pagingButtonsConfiguration'] = 'auto';
 		utable.draw(udata, options);

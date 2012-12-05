@@ -79,8 +79,8 @@ var TimeSeries = {
       initDatePickers: function (startDate, endDate)
       {
         var self = this;
-        this.getStartPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ self.changeDateRange(new Date(dateText),self.getEndPicker().datepicker("getDate"));}});
-        this.getEndPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ self.changeDateRange(self.getStartPicker().datepicker("getDate"), new Date(dateText));}});
+        this.getStartPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect: function(dateText, inst){ self.changeDateRange(new Date(dateText),self.getEndPicker().datepicker("getDate")); $(this).blur();}});
+        this.getEndPicker().datepicker({minDate: startDate, maxDate: endDate, onSelect:  function(dateText, inst){ self.changeDateRange(self.getStartPicker().datepicker("getDate"), new Date(dateText)); $(this).blur();}});
         this.getStartPicker().datepicker("setDate", startDate);
         this.getEndPicker().datepicker("setDate", endDate);
       },

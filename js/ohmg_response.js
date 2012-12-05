@@ -13,7 +13,7 @@ var Response = {
 //adding data from res into datatable
 
 		for(var i in survey){
-//		console.log(survey[i].prompt_unit);
+
 			if(survey[i].prompt_type == 'photo' && survey[i].prompt_response != "SKIPPED"){
 				console.log(survey[i].prompt_response);
 				
@@ -26,10 +26,9 @@ var Response = {
 				image_link+= '&amp;auth_token=' + $.ohmg.getToken()
 				image_link+= '&amp;owner=' + tname + '&amp;client=android&amp;size=small';
 
-				//console.log(image_link)
 				rdata.addRows([[
 				//https://test.ohmage.org/app/image/read?id=c4710b56-93d2-4a3a-a7fc-1c6d45b04988&amp;campaign_urn=urn:campaign:ca:ucla:Demo:Advertisement&amp;auth_token=d3540b47-61bb-421a-bf7f-56961316dd0e&amp;owner=mobilize.student&amp;client=ohmage-gwt&amp;size=small" class="GHKF5YNDE0B
-					survey[i].prompt_text, '<img src="' +image_link + '">'
+					survey[i].prompt_text, '<img class="img-polaroid" src="' +image_link + '">'
 				]]);
 				
 				

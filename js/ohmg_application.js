@@ -26,62 +26,50 @@ var recalculateTimeSeries = true;
 
 $(document).ready(function(){
 
-$('body').append(
+$container = $('#container');
 
-   $('<div/>').attr("id","chart_div")
-              .css({"width": "800px", "height": "180px"}),
+$container.append(
+
+
+$('<div/>').attr("id","date_wrap").append(          
    
-   $('<p/>').text("Start: ")
-           .append(
-   	  			$('<input/>').attr({"type":"text","id":"dp_start"})
-   			),
+         $('<span/>').text("Start: ")
+                 .append(
+                  $('<input/>').attr({"type":"text","id":"dp_start","class":"input-small"})
+              ),
 
-   $('<p/>').text("End: ")
-      		.append(
-	  			$('<input/>').attr({"type":"text","id":"dp_end"})
-			),
+         $('<span/>').text("End: ")
+                .append(
+                $('<input/>').attr({"type":"text","id":"dp_end","class":"input-small"})
+            )
+    ),
 
+
+
+   $('<div/>').attr("id","chart_div"),
 	
    $('<div/>').attr("id","ohmg_map"),
 
 
+   $('<div/>').attr("id","table_wrap").append(
 
-    '<div id="table_div" style="display:block;width: 500px; height: 400px;""></div>'
-
-	+ '<div id="user_vis" style="display:none">' 
-
-	/*+   '<h2 id="user_name"></h2>'/*,
-	$('<a/>').click(function(){
-
-		alert("Hello");
-
-		//toggle_visibility("table_div");
-		//toggle_visibility("user_vis");
-
-		$("#table_div").toggle();
-		$("#user_vis").toggle();
-
-		//$('#user_vis').hide();
-	})
-	.text("View Leaderboard")
-	.attr("href","#"),*/
-
-		//'<a href="#" onclick="toggle_visibility("table_div");toggle_visibility("user_vis")">Back</a>'
-
-	+	'<div id="user_div" style="width: 500px; height: 200px;""> </div>'
-	+	'<div id="res_div" style="display:none; width: 500px; height: 200px;"> </div>'
-	+ '</div>' 
+          '<div id="leaderboard"><h2>Leaderboard</h2><div id="table_div" style="display:block;width: 500px; height:400px;"></div></div>'
+      	+ '<div id="user_vis" style="display:none">' 
+      	+	'<div id="user_div" style="width: 500px; height:400px;"> </div>'
+      	+	'<div id="res_div" style="display:none; width: 500px;"> </div>'
+      	+ '</div>' 
+      )
 );
 
     $("#user_vis").prepend(
+
+    '<h2 id="user_name"></h2>',
+
 		$('<a/>').click(function(e){
 
-			//alert("Hello");
+			
 
-			//toggle_visibility("table_div");
-			//toggle_visibility("user_vis");
-
-			$("#table_div").toggle();
+			$("#leaderboard").toggle();
 			$("#user_vis").toggle();
 
 			User.setNameAll();
@@ -93,9 +81,11 @@ $('body').append(
 
 		})
 		.text("View Leaderboard")
-		.attr("href","#"),
-		'<h2 id="user_name"></h2>'
+		.attr({"href":"#","id":"view_leaderboard","class":"btn btn-primary"})
+		
     );
+
+    $('body').append('<div class="clearfix"></div>' + "<footer></footer>");
 
 
 
@@ -121,13 +111,13 @@ $.ohmg.login(user,password, client_type,
         		$select.append($('<option/>').val(campaigns[i]).text(campaigns[i]));
         	}
 
-        	$select.val(campaigns[0]).prependTo('body');
+        	$('#date_wrap').prepend("Campaigns: " , $select.val(campaigns[0]));
 
         	$select.change(function(){
 
         		campaign_urn =  $(this).find(":selected").val();
 
-            $("#table_div").css({"display":"block"});
+            $("#leaderboard").css({"display":"block"});
             $("#user_vis").css({"display":"none"});
 
 
@@ -164,11 +154,6 @@ $.ohmg.login(user,password, client_type,
 
  );//end login
 
-//TODO: add Observer code here
-
-
-
-
 
 });//end document.ready
 
@@ -183,12 +168,12 @@ function queryByDate (){
 
 
 	 var optional = {
-	              prompt_id_list : prompt_id_list ////prompt_id_list 
+	              prompt_id_list : prompt_id_list //prompt_id_list 
                 , sort_order : sort_order
                
                }; 
 
-     if(!recalculateTimeSeries){//user_list !== User.allString() ) {
+     if(!recalculateTimeSeries){ 
      	  optional.start_date = start_date;
         optional.end_date = end_date;
      }
@@ -207,10 +192,7 @@ function queryByDate (){
                     , optional
                     , function(obj) {
 
-                    	//console.log(obj);
-                    	//console.log(user_list);
-
-                        var markers =  map.generateMarkers(obj.data) ;
+                      var markers =  map.generateMarkers(obj.data) ;
 
                     	map.clearMarkers();
                     	map.addMarkers( markers );
@@ -235,6 +217,7 @@ function queryByDate (){
                     	if(recalculateTimeSeries) {
 
                     		TimeSeries.initSurveyResponse(obj,queryByDate);
+
                         }
                     	recalculateTimeSeries = false;
                     }

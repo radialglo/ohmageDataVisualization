@@ -5,16 +5,6 @@ var data;
 var arr;
 
 
-function toggle_visibility(id) {
-    var e = document.getElementById(id);
-    if(e.style.display == 'block')
-        e.style.display = 'none';
-    else
-        e.style.display = 'block';
-}
-
-
-
 function selectHandler() {
     var selection = table.getSelection();
 	var name = '';
@@ -35,13 +25,10 @@ function selectHandler() {
 		console.log(name);
 		document.getElementById('res_div').style.display = 'none';
 		
-		//User.drawTable(arr,name);
 		recalculateTimeSeries = true;
 		Leaderboard.getSelectHandler()();
 		
-		/*toggle_visibility('table_div');
-		toggle_visibility('user_vis');*/
-		$("#table_div").toggle();
+		$("#leaderboard").toggle();
 		$("#user_vis").toggle();
     }
 }
@@ -112,7 +99,7 @@ var Leaderboard = {
 		var options = {'showRowNumber': true};
 //		options['page'] = 'enable';
 //		options['pageSize'] = 10;
-		options['width'] = 500;
+		options['width'] = 400;
 //		options['pagingButtonsConfiguration'] = 'auto';
 		table.draw(data, options);
 		google.visualization.events.addListener(table, 'select', selectHandler);
