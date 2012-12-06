@@ -98,11 +98,8 @@ var User = {
 		
         utable = new google.visualization.Table(document.getElementById('user_div'));
 		var options = {'showRowNumber': true};
-//		options['page'] = 'enable';
-//		options['pageSize'] = 10;
 		options['width'] = 400;
 		options['allowHtml'] = true;
-//		options['pagingButtonsConfiguration'] = 'auto';
 		utable.draw(udata, options);
 		google.visualization.events.addListener(utable, 'select', uselectHandler);
       }

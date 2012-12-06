@@ -50,7 +50,6 @@ var Leaderboard = {
 		for(var i = 0; i < arr.length; i++){
 			res[i] ={"name": "no",
 				"total": 9,
-				"privacy": "no",
 				"last": "no"
 			};
 		} 
@@ -76,7 +75,6 @@ var Leaderboard = {
 			while(res[y].name != arr[x].user){
 				x--;
 			}
-			res[y].privacy = arr[x].privacy_state;
 			res[y].last = arr[x].utc_timestamp;
 		}
 	
@@ -86,21 +84,17 @@ var Leaderboard = {
 		data.addColumn('string', 'ID');
 		data.addColumn('number', 'Responses');
 		data.addColumn('string', 'Last Response');		
-		data.addColumn('string', 'Privacy State');	
 //adding data from res into datatable
 		for(var x = 0; x < total; x++){
 			data.addRows([[
-				res[x].name, res[x].total, res[x].last, res[x].privacy
+				res[x].name, res[x].total, res[x].last
 			
 			]]);
 		}
 		
         table = new google.visualization.Table(document.getElementById('table_div'));
 		var options = {'showRowNumber': true};
-//		options['page'] = 'enable';
-//		options['pageSize'] = 10;
 		options['width'] = 400;
-//		options['pagingButtonsConfiguration'] = 'auto';
 		table.draw(data, options);
 		google.visualization.events.addListener(table, 'select', selectHandler);
       }
