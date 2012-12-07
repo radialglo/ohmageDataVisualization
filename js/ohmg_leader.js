@@ -95,6 +95,8 @@ var Leaderboard = {
         table = new google.visualization.Table(document.getElementById('table_div'));
 		var options = {'showRowNumber': true};
 		options['width'] = 400;
+		options['sortColumn'] = 1;
+		options['sortAscending'] = false;
 		table.draw(data, options);
 		google.visualization.events.addListener(table, 'select', selectHandler);
       }
