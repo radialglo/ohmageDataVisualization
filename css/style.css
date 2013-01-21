@@ -1,0 +1,141 @@
+/*
+ * style.css
+ * custom Ohmage styling
+ *
+ *
+ *
+ */
+
+
+html {
+    min-height: 100%;
+}
+
+body {
+    position: relative;
+    height: 100%;
+    background: #FCFCFC;
+}
+
+img {
+    max-width: none;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.img-polaroid {
+     -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    border-radius:4px;
+}
+
+select {
+    width: 220;
+}
+
+#masthead {
+    background: whiteSmoke;
+    border-top: 5px solid #333;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    padding: .5em 0;
+    margin-bottom: 20px;
+}
+
+#date_wrap {
+    display: inline-block;
+    padding: 0 1em;
+}
+
+#date_wrap span {
+    margin: 1.5em;
+}
+
+#ui-datepicker-div {
+    /*makes date picker overlay time series*/
+    z-index: 1000 !important;
+}
+
+#user_name {
+    display: inline-block;
+}
+
+#view_leaderboard {
+    position: relative;
+    top: -7px;
+    left: 15px;
+}
+
+/*
+switch cursor to pointer on the leaderboard/userpages
+*/
+
+#table_div .google-visualization-table-table,
+#user_div .google-visualization-table-table {
+   cursor: pointer;
+}
+
+#table_wrap {
+    position: absolute;
+    top: 74px;
+    left: 830px;
+    padding-bottom: 20px;
+}
+
+
+#chart_div {
+    border-top: 1px solid #CCC;
+    padding: 10px 5px auto 5px;
+    width: 808px;
+    height: 150px;
+}
+
+
+/*==== Ohmg_map ====*/
+#ohmg_map {
+     border-top: 1px solid #CCC;
+    height: 300px;
+    width: 727px;
+    margin: 1em ;
+    border: 10px solid #EEE;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+   position: relative;
+   left: 43px;
+}
+
+#mapInfoBox {
+    display: none;
+    position: absolute;
+    padding: 1em;
+    background: rgba(0,0,0,0.7);
+    color: #FFF;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25), 0 3px 3px -3px rgba(0,0,0,0.45); 
+    border-radius:4px;
+    cursor: pointer;
+}
+
+#mapInfoBox li {
+    list-style: none;
+}
+
+#mapInfoBox span {
+    color: #FC3;
+    text-shadow: 0 0 1px white;
+    margin-right: 5px;
+}
+
+/*==== end Ohmg_map ====*/
+
